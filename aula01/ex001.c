@@ -16,11 +16,11 @@ int main() {
     scanf("%d", &n);
 
     do{
-        printf("\ndigite sua altura: ");
+        printf("\nDigite sua altura: ");
         fflush(stdin);
         scanf("%f", &altura);
 
-        printf("\ndigite seu sexo: ");
+        printf("\nDigite seu sexo: ");
         fflush(stdin);
         scanf("%c", &sexo);
 
@@ -33,5 +33,5 @@ int main() {
         printf("\nSeu peso ideal é: %5.2f\n", peso);
 
         i = i + 1;
-    }while(i <= n);
+    } while(i <= n);
 }
