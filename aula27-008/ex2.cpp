@@ -25,6 +25,7 @@ cadastrados ate o momento e um ano, retorna a media.
 #include <string.h>
 
 #define MAX 15
+#define TAM 30
 
 struct tCarro
 {
@@ -36,28 +37,49 @@ struct tCarro
 /*prototipo das funcoes*/
 void menu();
 
+void lerCarro(tCarro vetor[TAM], int &n);
+
+void listaCarro(tCarro vetor[TAM], int n);
+
+double calcMedia(tCarro vetor[TAM], int n, int ano);
 
 // funcao principal
 int main()
 {
 	// declaracao de variaveis
-	int opcao;
+	int opcao, ano;
+    int n = 0; // cadastro de carros.
+    double media;
+    tCarro catalogo[n];
 
 	do{
 		menu();
+
+        fflush(stdin);
 		scanf("%d", &opcao);
 
 		if(opcao == 1)
 		{
-			// ler os dados de um carro - funcao
+			lerCarro(catalogo, n);
 		}
 		else if(opcao == 2)
 		{
-			// imprimir todos os carros cadastrados - funcao
+			listaCarro(catalogo, n);
 		}
 		else if(opcao == 3)
 		{
-			// ler um ano e imprimir a media de precos dos carros do ano
+            printf("\nDigite o ano que deseja buscar a media: ");
+            fflush(stdin);
+            scanf("%d", &ano);
+
+            media = calcMedia(catalogo, n, ano);
+            if (media == 0.0) {
+                printf("Nenhum Carro foi encontrado neste ano.");
+            }
+            else {
+                printf("Media dos precos: %.2f", media);
+            }
+            
 		}
 	}while(opcao != 4);
 
@@ -66,8 +88,54 @@ int main()
 
 void menu()
 {
-	printf("\n[1] Cadastrar um carro\n");
-	printf("[2] Listar carros\n");
-	printf("[3] Media de precos de um ano\n");
-	printf("Opcao: ");
+	printf("\n[1] Cadastrar um carro");
+	printf("\n[2] Listar carros");
+	printf("\n[3] Media de precos de um ano");
+	printf("\nOpcao: ");
+}
+
+void lerCarro(tCarro vetor[TAM], int &n) {
+
+    printf("\nQual a marca deste modelo: ");
+        fflush(stdin);
+        scanf("%[^\n]", vetor[n].marca);
+        
+        printf("Qual o ano deste modelo: ");
+        fflush(stdin);
+        scanf("%d", &vetor[n].ano);
+
+        printf("Qual o valor deste modelo: ");
+        fflush(stdin);
+        scanf("%f", &vetor[n].preco);
+
+        n++;
+}
+
+void listaCarro(tCarro vetor[TAM], int n) {
+
+    int i;
+
+    printf("Lista de Carros: \n");
+    for(i = 0; i < n; i++) {
+        printf("%s %d %.2f\n", vetor[i].marca, vetor[i].ano, vetor[i].preco);
+    }
+}
+
+double calcMedia(tCarro vetor[TAM], int n, int ano) {
+    double soma = 0;
+    int i, cont = 0;
+
+    for(i = 0; i < n; i++) {
+        if(vetor[i].ano == ano) {
+            soma += vetor[i].preco;
+            cont += 1;
+        }
+    }
+
+    if(cont == 0) {
+        return 0.0;
+    }
+    else {
+        return soma/cont;
+    }
 }
