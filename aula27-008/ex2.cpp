@@ -136,6 +136,6 @@ double calcMedia(tCarro vetor[TAM], int n, int ano) {
         return 0.0;
     }
     else {
-        return soma/cont;
+        return soma / cont;
     }
 }
