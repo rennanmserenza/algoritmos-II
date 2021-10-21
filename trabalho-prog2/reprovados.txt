@@ -1,0 +1,6 @@
+				Nome							RA			MEDIA FINAL 		NUMERO DE INSERCAO NA LISTA
+Luiz Guilherme Mendes Serenza       		   211706 			2.10 			            3 
+Joao da Silva Santos                		   345678 			5.08 			            4 
+Juliana Pereira Trevo               		   982654 			5.42 			           15 
+
+Total de 3 alunos Reprovado.
