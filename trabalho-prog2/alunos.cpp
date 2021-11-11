@@ -1,102 +1,4 @@
-/*
-Aluno: Rennan Mendes Serenza
-UFMS - FACOM - Sistemas de Informação
-2021 - 2 Periodo - Noturno
-*/
-
-#include <time.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-#define MAX 100
-
-
-struct tipoAluno {
-    int RA, ordem_cadastro;
-    double media;  
-    double P1, P2, T, PO;
-    char nome[MAX], state[MAX];
-};
-
-void removerSpacos(char str[]);
-int get_size(const char *name);
-void menu(int &option);
-
-void mediaList(tipoAluno &v);
-void insertOrdenado(tipoAluno *v, tipoAluno &q, int i);
-
-void cadastraAluno(tipoAluno &v, int i);
-void buscaAluno(tipoAluno *v, int i);
-void lerArquivo(tipoAluno *v, int &i);
-void geraArquivo(tipoAluno *v, int i, int opt);
-void verificaAluno(FILE *pt, tipoAluno *v, int i, char *status);
-void encerrarPrograma(tipoAluno *v, int i);
-
-
-int main() {
-    int i = 0, opt = 0;
-    tipoAluno alunos[MAX], aluno[MAX];
-    
-    system("cls");
-
-    if(get_size("atual.txt") == 0) {
-        printf("Nenhum arquivo de dados encontrado!!!\n");
-    }
-    else {
-        printf("!!!Existe um arquivo atual.txt com dados salvos nele!!!\n");
-    }
-
-    do {    
-        menu(opt);        
-
-        // opt == 1 => Cadastrar Aluno.
-        if (opt == 1) {
-            cadastraAluno(aluno[0], i);
-            if (i == 0) {
-                alunos[i] = aluno[0];
-            }
-            else {
-                insertOrdenado(alunos, aluno[0], i);
-            }
-            i++;
-        }
-        // opt == 2 => Busca por alunos já cadastrados pelo nome.
-        else if (opt == 2) {
-            buscaAluno(alunos, i);
-        }
-        // opt == 3 => Cadastrar Aluno à partir de um documento externo.
-        else if (opt == 3) {
-            lerArquivo(alunos, i);
-        }
-        // opt == 4 => Gerar arquivo com dados dos alunos aprovados.
-        else if (opt == 4) {
-            geraArquivo(alunos, i, opt);
-        }
-        // opt == 5 => Gerar arquivo com dados dos alunos reprovados.
-        else if (opt == 5) {
-            geraArquivo(alunos, i, opt);
-        }
-        // opt => 6 => Encerra o programa e gera um arquivo atual.txt com os dados atuais.
-        else if (opt == 6) {
-            encerrarPrograma(alunos, i);
-        }
-        else {
-            printf("\nO valor inserido nao e um valor do menu, escolha novamente!!!\n");
-        }            
-        // Timer para a limpeza de tela após as operações serem realizadas
-        struct timespec tim, tim2;
-        tim.tv_sec  = 5;
-        tim.tv_nsec = 0;
-        
-        nanosleep(&tim, &tim2);        
-        system("cls");
-
-    } while (opt != 6);
-
-    return 0;
-}
-
+#include "alunos.h"
 
 void removerSpacos(char str[]) {
     int i, j = 1;
@@ -108,34 +10,6 @@ void removerSpacos(char str[]) {
     }
     str[j] = '\0';
 }
-int get_size(const char *name) {
-    int size;
-    FILE *pt = fopen(name, "r");
-
-    if(pt == NULL) {
-        return 0;
-    }        
-
-    fseek(pt, 0, SEEK_END);
-    
-    size = ftell(pt);
-    fclose(pt);
-
-    return size;
-}
-void menu(int &option) {
-    printf  ("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
-    printf  ("1 - Cadastrar novo aluno\n");
-    printf  ("2 - Buscar aluno\n");
-    printf  ("3 - Ler arquivo com listagem de alunos\n");
-    printf  ("4 - Gerar arquivo com alunos aprovados\n");
-    printf  ("5 - Gerar arquivo com alunos reprovados\n");
-    printf  ("6 - Fechar Programa\n");
-    printf  ("\nEscolha a operacao: ");
-    scanf   (" %d", &option);
-    printf  ("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
-}
-
 
 void mediaList(tipoAluno &v) {
     double n1 = v.P1, n2 = v.P2;
@@ -280,7 +154,7 @@ void verificaAluno(FILE *pt, tipoAluno *v, int i, char *status) {
     for (j = 0; j < i; j++) {
         if (strcmp(status, v[j].state) == 0) {
             fprintf(pt, "%-35s \t\t%9d \t\t\t%4.2lf \t\t\t%13d \n",
-             v[j].nome, v[j].RA, v[j].media, v[j].ordem_cadastro);
+            v[j].nome, v[j].RA, v[j].media, v[j].ordem_cadastro);
             k++;
         }
     }
